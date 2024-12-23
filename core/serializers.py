@@ -24,3 +24,10 @@ class ReportSerializer(serializers.ModelSerializer):
         location, created = Location.objects.get_or_create(name=location_name)
         validated_data['location'] = location
         return super().create(validated_data)
+    
+    def update(self, instance, validated_data):
+        location_name = validated_data.pop('location', None)
+        if location_name:
+            location, created = Location.objects.get_or_create(name=location_name)
+            validated_data['location'] = location
+        return super().update(instance, validated_data)
